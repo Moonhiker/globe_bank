@@ -1,4 +1,5 @@
 <?php
+ob_start(); // output buffering is turned on
 
 define("PRIVATE_PATH", dirname(__FILE__));  // gives the current diroctory of inizialize.php -> private
 define("PROJECT_PATH", dirname(PRIVATE_PATH)); // get the current directory of diractory "private" -> globe_bank

@@ -9,7 +9,6 @@ $subject["position"] = '';
 $subject["visible"] = '';
 
 $subject = find_subject_by_id($id);
-
 ?>
 
 <?php $page_title = 'Show Subjects'; ?>
@@ -35,7 +34,7 @@ $subject = find_subject_by_id($id);
    
     <dl>
       <dt>Visible</dt>
-      <dd> <?php echo $subject["visible"] == 1 ? 'true' : 'false';  ?> </dd>
+      <dd> <?php echo $subject['visible'] == '1' ? 'true' : 'false';  ?> </dd>
     </dl>
 
 

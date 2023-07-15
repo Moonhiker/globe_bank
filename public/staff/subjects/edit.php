@@ -18,7 +18,6 @@ if(is_post_request()) {
   $subject['position'] = $_POST['position'] ?? '';
   $subject['visible'] = $_POST['visible'] ?? '';
 
-  
 
   $result = update_subject($subject);
   if($result === true){
@@ -26,7 +25,6 @@ if(is_post_request()) {
   }
   else{
     $errors = $result;
-    //var_dump($error);
   }
 
 } 

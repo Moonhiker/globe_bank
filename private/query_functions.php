@@ -82,7 +82,7 @@ function update_subject($subject){
 
     $sql = "UPDATE subjects SET menu_name=?, position=?, visible=? WHERE id=? LIMIT 1";
 
-    $result = mysqli_execute_query($db, $sql, [$subject["menu_name"],$subject["position"],$subject["position"],$subject["id"]]);
+    $result = mysqli_execute_query($db, $sql, [$subject["menu_name"],$subject["position"],$subject["visible"],$subject["id"]]);
 
     // For UPDATE statement, result is true/false
     if($result){
@@ -172,7 +172,7 @@ function update_page($page){
 
     $sql = "UPDATE pages SET menu_name=?, position=?, visible=? WHERE id=? LIMIT 1";
 
-    $result = mysqli_execute_query($db, $sql, [$page["menu_name"],$page["position"],$page["position"],$page["id"]]);
+    $result = mysqli_execute_query($db, $sql, [$page["menu_name"],$page["position"],$page["visible"],$page["id"]]);
     if($result)
     {
      return true;   
@@ -249,6 +249,17 @@ function validate_page($page) {
 
     return $errors;
   }
+
+
+  function find_pages_by_subject_id($subject_id){
+    global $db;
+
+    $sql = "SELECT * FROM pages WHERE subject_id=? ORDER BY position ASC";
+    $query = mysqli_execute_query($db, $sql, [$subject_id]);
+    confirm_result_set($query);
+    return $query;
+}
+
 
 
 ?>
