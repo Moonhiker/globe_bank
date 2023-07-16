@@ -206,10 +206,10 @@ function delete_page($id){
 function validate_page($page) {
     $errors = [];
 
-    // // subject_id
-    // if(is_blank($page["subject_id"])){
-    //     $errors[] = "Subject cannot be blank";
-    // }
+    // subject_id
+    if(is_blank($page["subject_id"])){
+        $errors[] = "Subject cannot be blank";
+    }
 
     // menu_name
     if(is_blank($page['menu_name'])) {

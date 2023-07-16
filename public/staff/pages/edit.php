@@ -6,16 +6,11 @@ if(!isset($_GET['id'])) {
   redirect_to(url_for('/staff/pages/index.php'));
 }
 $id = $_GET['id'];
-$menu_name = '';
-$position = '';
-$visible = '';
-
-$page = [];
 
 if(is_post_request()) {
 
   // Handle form values sent by new.php
-  
+  $page = [];
   $page["id"] = $id;
   $page["subject_id"] = $_POST['subject_id'] ?? '';
   $page["menu_name"] = $_POST['menu_name'] ?? '';
@@ -38,9 +33,8 @@ else{
   $page = find_pages_by_id($id);
 }
 $rows = find_all_pages();
-$count_row = mysqli_num_rows($rows) + 1;
-$page["position"] = $count_row;
-
+$page_count = mysqli_num_rows($rows);
+mysqli_free_result($rows);
 ?>
 
 <?php $page_title = 'Edit Page'; ?>
@@ -54,7 +48,25 @@ $page["position"] = $count_row;
     <h1>Edit Page</h1>
     <?php echo display_errors($errors);  ?>
     <form action="<?php echo url_for('/staff/pages/edit.php?id=' . h(u($id))); ?>" method="post">
-      <dl>
+    <dl>
+        <dt>Subject</dt>
+        <dd>
+          <select name="subject_id">
+          <?php
+            $subject_set = find_all_subjects();
+            while($subject = mysqli_fetch_assoc($subject_set)) {
+              echo "<option value=\"" . h($subject['id']) . "\"";
+              if($page["subject_id"] == $subject['id']) {
+                echo " selected";
+              }
+              echo ">" . h($subject['menu_name']) . "</option>";
+            }
+            mysqli_free_result($subject_set);
+          ?>
+          </select>
+        </dd>
+      </dl>  
+    <dl>
         <dt>Menu Name</dt>
         <dd><input type="text" name="menu_name" value="<?php echo h($page["menu_name"]); ?>" /></dd>
       </dl>
@@ -64,7 +76,7 @@ $page["position"] = $count_row;
           <select name="position">
           <?php 
 
-            for($i=1; $i <= $count_row ;$i++){
+            for($i=1; $i <= $page_count; $i++){
               echo "<option value=\"" . $i ."\"";
               if($page["position"] == $i){
                 echo " selected";
@@ -79,7 +91,7 @@ $page["position"] = $count_row;
         <dt>Visible</dt>
         <dd>
           <input type="hidden" name="visible" value="0" />
-          <input type="checkbox" name="visible" value="1"<?php if($visible == "1") { echo " checked"; } ?> />
+          <input type="checkbox" name="visible" value="1"<?php if($page["visible"] == "1") { echo " checked"; } ?> />
         </dd>
       </dl>
       <dl>
