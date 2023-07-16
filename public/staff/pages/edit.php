@@ -82,6 +82,12 @@ $page["position"] = $count_row;
           <input type="checkbox" name="visible" value="1"<?php if($visible == "1") { echo " checked"; } ?> />
         </dd>
       </dl>
+      <dl>
+        <dt>Content</dt>
+        <dd>
+          <textarea name="content" cols="60" rows="10"><?php echo h($page['content']); ?></textarea>
+        </dd>
+      </dl>
       <div id="operations">
         <input type="submit" value="Edit Page" />
       </div>

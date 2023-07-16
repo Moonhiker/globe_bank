@@ -170,9 +170,9 @@ function update_page($page){
       return $errors;
     }
 
-    $sql = "UPDATE pages SET menu_name=?, position=?, visible=? WHERE id=? LIMIT 1";
+    $sql = "UPDATE pages SET menu_name=?, position=?, visible=?, content=? WHERE id=? LIMIT 1";
 
-    $result = mysqli_execute_query($db, $sql, [$page["menu_name"],$page["position"],$page["visible"],$page["id"]]);
+    $result = mysqli_execute_query($db, $sql, [$page["menu_name"],$page["position"],$page["visible"],$page["content"],$page["id"]]);
     if($result)
     {
      return true;   
@@ -255,9 +255,9 @@ function validate_page($page) {
     global $db;
 
     $sql = "SELECT * FROM pages WHERE subject_id=? ORDER BY position ASC";
-    $query = mysqli_execute_query($db, $sql, [$subject_id]);
-    confirm_result_set($query);
-    return $query;
+    $result = mysqli_execute_query($db, $sql, [$subject_id]);
+    confirm_result_set($result);
+    return $result;
 }
 
 
