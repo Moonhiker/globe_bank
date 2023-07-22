@@ -9,8 +9,6 @@ $page["position"] = '';
 $page["visible"] = '';
 
 $page = find_pages_by_id($id);
-echo $page["menu_name"];
-
 ?>
 
 <?php $page_title = 'Show Page'; ?>
@@ -21,15 +19,19 @@ echo $page["menu_name"];
   <a class="back-link" href="<?php echo url_for('/staff/pages/index.php'); ?>">&laquo; Back to List</a>
 
   <div class="page show">
-     <?php //$subject = find_subject_by_id($page["subject_id"]); ?>
-    <dl>
-      <dt>Subject</dt>
-      <dd> <?php //echo h($page["menu_name"]);?> </dd>
-    </dl>
-    <dl>
+  
+    <h1>Page: <?php echo h($page['menu_name']); ?></h1>
 
-    <dl>
-      <dt>Menu Name</dt>
+  <div class="attributes">
+  <?php $subject = find_subject_by_id($page['subject_id']); ?>
+  
+  <dl>
+    <dt>Subject</dt>
+    <dd><?php echo h($subject['menu_name']); ?></dd>
+  </dl>
+  
+  <dl> 
+    <dt>Menu Name</dt>
       <dd> <?php echo h($page["menu_name"]);?> </dd>
     </dl>
     <dl>

@@ -146,9 +146,9 @@ function insert_page($page){
     }
 
 
-    $sql = "INSERT INTO pages (menu_name, position, visible) VALUES (?,?,?)";
+    $sql = "INSERT INTO pages (menu_name, position, visible, subject_id, content ) VALUES (?,?,?,?,?)";
 
-    $result = mysqli_execute_query($db, $sql, [$page["menu_name"],$page["position"],$page["visible"]]);
+    $result = mysqli_execute_query($db, $sql, [$page["menu_name"],$page["position"],$page["visible"],$page["subject_id"], $page["content"]]);
     if($result)
     {
      return true;   
@@ -170,9 +170,9 @@ function update_page($page){
       return $errors;
     }
 
-    $sql = "UPDATE pages SET menu_name=?, position=?, visible=?, content=? WHERE id=? LIMIT 1";
+    $sql = "UPDATE pages SET menu_name=?, position=?, visible=?, content=?, subject_id=? WHERE id=? LIMIT 1";
 
-    $result = mysqli_execute_query($db, $sql, [$page["menu_name"],$page["position"],$page["visible"],$page["content"],$page["id"]]);
+    $result = mysqli_execute_query($db, $sql, [$page["menu_name"],$page["position"],$page["visible"],$page["content"],$page["subject_id"], $page["id"]]);
     if($result)
     {
      return true;   
