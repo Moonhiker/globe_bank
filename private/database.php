@@ -8,12 +8,11 @@
     return $connection;
   }
 
-  function db_disconnect($connection) {
+  function db_disconnect(mysqli $connection) {
     if(isset($connection)) {
       mysqli_close($connection);
     }
   }
-
 
   function confirn_db_connect(){
     if(mysqli_connect_errno()) {
