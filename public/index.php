@@ -6,13 +6,15 @@ if(isset($_GET["id"]))
   $page_id = $_GET["id"];
   $page = find_pages_by_id($page_id);
   if(!$page){
-    redirect_to(url_for("/index.php"));
+    redirect_to(url_for("/index.php"));  // id not exist
   }
-  else
-  {
-    // nothin selected; show the homepage
-  }
+  $subject_id = $page["subject_id"];
+} 
+else
+{
+  // nothin selected; show the homepage
 }
+
 ?>
 
 <?php include(SHARED_PATH . '/public_header.php'); ?>
@@ -27,7 +29,8 @@ if(isset($_GET["id"]))
   if(isset($page))
   {
     // show the page from the database
-    echo h($page["content"]);
+    // TODO add html escaping back in
+    echo $page["content"];
   }
   else
   {

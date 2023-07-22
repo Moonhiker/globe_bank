@@ -1,8 +1,14 @@
+<?php
+  // Default value to prevent errors
+  $page_id ?? ''; 
+  $subject_id ?? ''; 
+?>
+
 <navigation>
   <?php $nav_subjects = find_all_subjects(); ?>
   <ul class="subjects">
     <?php while($nav_subject = mysqli_fetch_assoc($nav_subjects)) { /*get menu_name from subjects*/  ?> 
-      <li>
+      <li class=" <?php if($nav_subject["id"] == $subject_id) { echo "selected"; } //page_id came from /public/index.php  ?>">
         <a href="<?php echo url_for('index.php'); ?>">
           <?php echo h($nav_subject['menu_name']); ?>
         </a>
@@ -11,7 +17,7 @@
                                                                           subject id <-> page subject_id */ ?>
           <ul class="pages">
             <?php while($nav_page = mysqli_fetch_assoc($nav_pages)) { ?>
-              <li>
+              <li class=" <?php if($nav_page["id"] == $page_id) { echo "selected"; } //page_id came from /public/index.php  ?>">
                 <a href="<?php echo url_for('index.php?id=' . h(u($nav_page["id"]))); ?>">
                   <?php echo h($nav_page['menu_name']); ?>
                 </a>
