@@ -5,7 +5,7 @@
 ?>
 
 <navigation>
-  <?php $nav_subjects = find_all_subjects(); ?>
+  <?php $nav_subjects = find_all_subjects(["visible" => true]); ?>
   <ul class="subjects">
     <?php while($nav_subject = mysqli_fetch_assoc($nav_subjects)) { /*get menu_name from subjects*/  ?> 
       <li class=" <?php if($nav_subject["id"] == $subject_id) { echo "selected"; } //page_id came from /public/index.php  ?>">
@@ -13,7 +13,7 @@
           <?php echo h($nav_subject['menu_name']); ?>
         </a>
 
-        <?php $nav_pages = find_pages_by_subject_id($nav_subject["id"]); /*get all menu_name from pages which are connected to this subjects
+        <?php $nav_pages = find_pages_by_subject_id($nav_subject["id"], ["visible" => true]); /*get all menu_name from pages which are connected to this subjects
                                                                           subject id <-> page subject_id */ ?>
           <ul class="pages">
             <?php while($nav_page = mysqli_fetch_assoc($nav_pages)) { ?>

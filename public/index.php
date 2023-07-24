@@ -4,7 +4,7 @@
 if(isset($_GET["id"]))
 {
   $page_id = $_GET["id"];
-  $page = find_pages_by_id($page_id);
+  $page = find_pages_by_id($page_id, ["visible" => true]);
   if(!$page){
     redirect_to(url_for("/index.php"));  // id not exist
   }
@@ -29,8 +29,10 @@ else
   if(isset($page))
   {
     // show the page from the database
-    // TODO add html escaping back in
-    echo $page["content"];
+    // HTML tags white list, tags which are allowed in content -> for security
+    // all others tags will be deleted
+    $allowed_tags = "<div><img><h1><h2><p><br><strong><em><ul><li>";
+    echo strip_tags($page["content"],$allowed_tags);
   }
   else
   {

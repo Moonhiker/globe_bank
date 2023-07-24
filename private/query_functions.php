@@ -1,9 +1,15 @@
 <?php
 
-function find_all_subjects(){
+function find_all_subjects(array $options=[]){
     global $db;
-    
-    $sql = "SELECT * FROM subjects ORDER BY position ASC";
+
+    $visible = $options["visible"] ?? false;
+    $sql = "SELECT * FROM subjects ";
+    if($visible)
+    {
+      $sql.=  "WHERE visible = true ";
+    }
+    $sql.= "ORDER BY position ASC";
     $result = mysqli_execute_query($db, $sql);
     confirm_result_set($result); // check if we get data back
     return $result;
@@ -127,10 +133,15 @@ function find_all_pages(){
 }
 
 
-function find_pages_by_id($id){
+function find_pages_by_id($id, array $options=[] ){
     global $db;
 
-    $sql = "SELECT * FROM pages WHERE id=?";
+    $visible = $options["visible"] ?? false;
+    $sql = "SELECT * FROM pages WHERE id=? ";
+    if($visible)
+    {
+      $sql.= "AND visible = true ";
+    }
     $query = mysqli_execute_query($db, $sql, [$id]);
     confirm_result_set($query);
     $result = mysqli_fetch_assoc($query);
@@ -251,10 +262,16 @@ function validate_page($page) {
   }
 
 
-  function find_pages_by_subject_id($subject_id){
+  function find_pages_by_subject_id($subject_id, array $options=[]){
     global $db;
 
-    $sql = "SELECT * FROM pages WHERE subject_id=? ORDER BY position ASC";
+    $visible = $options["visible"] ?? false;
+    $sql = "SELECT * FROM pages WHERE subject_id=? ";
+    if($visible)
+    {
+      $sql.= "AND visible = true ";
+    } 
+    $sql .= "ORDER BY position ASC";
     $result = mysqli_execute_query($db, $sql, [$subject_id]);
     confirm_result_set($result);
     return $result;
