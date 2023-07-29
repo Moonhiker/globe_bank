@@ -4,7 +4,13 @@
 if(isset($_GET["id"]))
 {
   $page_id = $_GET["id"];
-  $page = find_pages_by_id($page_id, ["visible" => true]);
+  $isPreview = $_GET["preview"] == "true" ? true : false;
+  if($isPreview)
+  {
+    $page = find_pages_by_id($page_id); // ignore visibility flag
+  }else{
+    $page = find_pages_by_id($page_id, ["visible" => true]);
+  }
   if(!$page){
     redirect_to(url_for("/index.php"));  // id not exist
   }

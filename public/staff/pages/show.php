@@ -47,8 +47,8 @@ $page = find_pages_by_id($id);
 
     <dl>
        <dt>Conent</dt>
+       <dd><a target="_blank" href=<?php echo url_for('index.php?id=' . h(u($id)) . "&preview=true"); ?>> Preview of Content </a></dd>
        <dd> <?php echo h($page["content"]);?> </dd> 
-
     </dl>
 
 
