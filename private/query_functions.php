@@ -253,9 +253,7 @@ function validate_page($page) {
 
     // content
     if(is_blank($page['content'])) {
-        $errors[] = "Name cannot be blank.";
-      } elseif(!has_length($page['menu_name'], ['min' => 2, 'max' => 255])) {
-        $errors[] = "Name must be between 2 and 255 characters.";
+        $errors[] = "Content cannot be blank.";
       }
 
     return $errors;
