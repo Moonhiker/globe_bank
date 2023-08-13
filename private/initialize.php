@@ -1,6 +1,8 @@
 <?php
 ob_start(); // output buffering is turned on
 
+session_start(); // turn on sessions
+
 define("PRIVATE_PATH", dirname(__FILE__));  // gives the current diroctory of inizialize.php -> private
 define("PROJECT_PATH", dirname(PRIVATE_PATH)); // get the current directory of diractory "private" -> globe_bank
 define("PUBLIC_PATH", PROJECT_PATH . "/public"); // get the directory of public -> global_bank/public

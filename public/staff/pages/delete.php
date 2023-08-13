@@ -8,8 +8,12 @@ if(!isset($_GET['id'])) {
 $id = $_GET['id'];
 
 if(is_post_request()) {
+  $page = find_pages_by_id($id); // get information for status message
   $result = delete_page($id);
-  redirect_to( url_for( "/staff/pages/index.php"));
+  if($result){
+    $_SESSION["status_message"] = "The page {$page["menu_name"]} was deleted";
+    redirect_to( url_for( "/staff/pages/index.php"));
+  }
 
 }
 else{ // get request

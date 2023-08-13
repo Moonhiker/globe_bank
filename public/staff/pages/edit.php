@@ -21,6 +21,7 @@ if(is_post_request()) {
   $result = update_page($page);
   if($result === true)
   {
+    $_SESSION["status_message"] = "The page {$page["menu_name"]} was edited successfully";
     redirect_to(url_for("/staff/pages/show.php?id=" . h($id)));
   }
   else{

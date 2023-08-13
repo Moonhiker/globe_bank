@@ -19,6 +19,13 @@
 
     <navigation>
       <ul>
+        <li>User: <?php echo $_SESSION["username"] ?? ""; ?>  </li>  
         <li><a href= <?php echo WWW_ROOT . "/staff/index.php" ?>> Menu </a> </li>
+        <li><a href= <?php echo WWW_ROOT . "/staff/logout.php" ?>> Logout </a> </li>
       </ul>
     </navigation>
+
+    <?php if(isset($_SESSION["status_message"])) {
+      echo "<div class=\"message\">" . $_SESSION["status_message"] . "</div>"; 
+      unset($_SESSION["status_message"]); } 
+      ?>

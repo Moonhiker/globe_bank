@@ -12,10 +12,10 @@ if(is_post_request()) {
   $page["visible"] = $_POST['visible'] ?? '';
   $page["content"] = $_POST['content'] ?? '';
 
-
   $result = insert_page($page);
   if($result === true){
     $id = mysqli_insert_id($db);
+    $_SESSION["status_message"] = "The page {$page["menu_name"]} was created successfully";
     redirect_to( url_for( "/staff/pages/show.php?id=" . h($id)));
   }
   else{

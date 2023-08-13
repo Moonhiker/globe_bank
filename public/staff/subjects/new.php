@@ -12,6 +12,7 @@ if(is_post_request()){
   $result = insert_subject($subject);
   if($result === true)
   {
+      $_SESSION["status_message"] = "The subject {$subject["menu_name"]} was created successfully";
       $new_id = mysqli_insert_id($db);
       redirect_to(url_for("/staff/subjects/show.php?id=" . $new_id));
   }

@@ -8,9 +8,13 @@ if(!isset($_GET['id'])) {
 $id = $_GET['id'];
 
 if(is_post_request()) {
+  $subject = find_subject_by_id($id); // get information for status message
   $result = delete_subject($id);
-  redirect_to( url_for( "/staff/subjects/index.php"));
-
+  if($result){
+    $_SESSION["status_message"] = "The subject {$subject["menu_name"]} was deleted";
+    redirect_to( url_for( "/staff/subjects/index.php"));
+  }
+ 
 }
 else{ // get request
   $subject = find_subject_by_id($id);
