@@ -113,4 +113,19 @@
     return $page_count === 0;
   }
 
+  // check if username already exist in admins table
+  function has_unique_admin_username($username, $current_id="0") {
+    global $db;
+
+    $sql = "SELECT * FROM admins ";
+    $sql .= "WHERE username='" . $username . "' ";
+    $sql .= "AND id != '" . $current_id . "'";
+
+    $admin_set = mysqli_query($db, $sql);
+    $admin_count = mysqli_num_rows($admin_set);
+    mysqli_free_result($admin_set);
+
+    return $admin_count === 0;
+  }
+
 ?>
