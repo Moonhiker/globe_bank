@@ -9,7 +9,7 @@ $id = $_GET['id'];
 
 if(is_post_request()) {
 
-  // Handle form values sent by new.php
+  // Handle form values sent by edit.php
   $page = [];
   $page["id"] = $id;
   $page["subject_id"] = $_POST['subject_id'] ?? '';
@@ -21,7 +21,7 @@ if(is_post_request()) {
   $result = update_page($page);
   if($result === true)
   {
-    $_SESSION["status_message"] = "The page {$page["menu_name"]} was edited successfully";
+    $_SESSION["status_message"] = "The page {$page["menu_name"]} was updated successfully";
     redirect_to(url_for("/staff/pages/show.php?id=" . h($id)));
   }
   else{

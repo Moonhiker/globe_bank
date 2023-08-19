@@ -1,12 +1,8 @@
 <?php require_once('../../../private/initialize.php'); ?>
 
 <?php
-// $id = isset($_GET['id']) ? $_GET['id'] : '1';
-$id = $_GET['id'] ?? '1'; // PHP > 7.0
 
-$page["menu_name"] = '';
-$page["position"] = '';
-$page["visible"] = '';
+$id = $_GET['id'] ?? '1'; 
 
 $page = find_pages_by_id($id);
 ?>
@@ -22,36 +18,36 @@ $page = find_pages_by_id($id);
   
     <h1>Page: <?php echo h($page['menu_name']); ?></h1>
 
-  <div class="attributes">
-  <?php $subject = find_subject_by_id($page['subject_id']); ?>
-  
-  <dl>
-    <dt>Subject</dt>
-    <dd><?php echo h($subject['menu_name']); ?></dd>
-  </dl>
-  
-  <dl> 
-    <dt>Menu Name</dt>
-      <dd> <?php echo h($page["menu_name"]);?> </dd>
-    </dl>
-    <dl>
+    <div class="attributes">
+      <?php $subject = find_subject_by_id($page['subject_id']); ?>
+      
+      <dl>
+        <dt>Subject</dt>
+        <dd><?php echo h($subject['menu_name']); ?></dd>
+      </dl>
+      
+      <dl> 
+        <dt>Menu Name</dt>
+          <dd> <?php echo h($page["menu_name"]);?> </dd>
+        </dl>
+        <dl>
 
-      <dt>Position</dt>
-      <dd> <?php echo h($page["position"]);?> </dd>
-    </dl>
-   
-    <dl>
-      <dt>Visible</dt>
-      <dd> <?php echo $page["visible"] == 1 ? "true" : "false";  ?> </dd>
-    </dl>
+          <dt>Position</dt>
+          <dd> <?php echo h($page["position"]);?> </dd>
+        </dl>
+      
+        <dl>
+          <dt>Visible</dt>
+          <dd> <?php echo $page["visible"] == 1 ? "true" : "false";  ?> </dd>
+        </dl>
 
-    <dl>
-       <dt>Conent</dt>
-       <dd><a target="_blank" href=<?php echo url_for('index.php?id=' . h(u($id)) . "&preview=true"); ?>> Preview of Content </a></dd>
-       <dd> <?php echo h($page["content"]);?> </dd> 
-    </dl>
+        <dl>
+          <dt>Conent</dt>
+          <dd><a target="_blank" href=<?php echo url_for('index.php?id=' . h(u($id)) . "&preview=true"); ?>> Preview of Content </a></dd>
+          <dd> <?php echo h($page["content"]);?> </dd> 
+        </dl>
 
-
+    </div>
 
   </div>
 
