@@ -1,9 +1,9 @@
 <?php 
 require_once("../../../private/initialize.php");
+require_login();
 
 if(is_post_request()){
   // Handle form values sent by new.php
-  
   $subject = [];
   $subject["menu_name"] = $_POST['menu_name'] ?? '';
   $subject["position"]  = $_POST['position'] ?? '';

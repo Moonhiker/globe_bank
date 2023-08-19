@@ -1,5 +1,4 @@
 <?php require_once('../../private/initialize.php'); 
-
 require_login();
 
 $page_title = "Staff Menu";

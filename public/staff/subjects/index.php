@@ -1,7 +1,8 @@
-<?php require_once('../../../private/initialize.php'); ?>
+<?php require_once('../../../private/initialize.php');
+require_login();
 
-<?php $page_title = 'Subjects'; ?>
-<?php include(SHARED_PATH . '/staff_header.php'); ?>
+$page_title = 'Subjects';
+include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">
   <div class="subjects listing">
