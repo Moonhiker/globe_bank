@@ -1,15 +1,20 @@
 <?php require_once('../private/initialize.php'); ?>
 
 <?php
+$preview = false;
+if(isset($_GET['preview'])) {
+  // previewing should require admin to be logged in
+  $preview = $_GET['preview'] == 'true' && is_logged_in() ? true : false;
+}
+
 if(isset($_GET["id"]))
 {
   $page_id = $_GET["id"];
-  $isPreview = $_GET["preview"] == "true" ? true : false;
-  if($isPreview)
+  if($preview)
   {
-    $page = find_pages_by_id($page_id); // ignore visibility flag
+    $page = find_pages_by_id($page_id); // ignore visibility flag -> show page with this page_id
   }else{
-    $page = find_pages_by_id($page_id, ["visible" => true]);
+    $page = find_pages_by_id($page_id, ["visible" => true]); // show only visible pages
   }
   if(!$page){
     redirect_to(url_for("/index.php"));  // id not exist

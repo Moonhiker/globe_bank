@@ -1,7 +1,5 @@
 <?php
-
 require_once('../../../private/initialize.php');
-
 require_login();
 
 if(!isset($_GET['id'])) {
@@ -72,6 +70,11 @@ else{
         <dl>
             <dt>Password</dt>
             <dd><input type="password" name="hashed_password" value="<?php echo h($admin["hashed_password"]); ?>" /></dd>
+        </dl>
+
+        <dl>
+            <dt>Confirm Password</dt>
+            <dd><input type="password" name="confirm_password" value="<?php echo h($admin["hashed_password"]); ?>" /></dd>
         </dl>
 
         <div id="operations">
