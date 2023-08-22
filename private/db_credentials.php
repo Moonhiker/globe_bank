@@ -7,5 +7,3 @@ define("DB_NAME", "globe_bank");
 define("DB_PORT", 3306);
 
 ?>
-
-?>
