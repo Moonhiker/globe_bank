@@ -8,20 +8,15 @@ if(!isset($_GET['id'])) {
 }
 $id = $_GET['id'];
 
+$page = find_pages_by_id($id);
+
 if(is_post_request()) {
-  $page = find_pages_by_id($id); // get information for status message
   $result = delete_page($id);
   if($result){
     $_SESSION["status_message"] = "The page {$page["menu_name"]} was deleted";
-    redirect_to( url_for( "/staff/pages/index.php"));
+    redirect_to( url_for( "/staff/subjects/show.php?id=" . h(u($page["subject_id"])))); // back to nested subject
   }
-
 }
-else{ // get request
-  $page = find_pages_by_id($id);
-  echo $page['menu_name'];
-}
-
 
 ?>
 
@@ -30,7 +25,7 @@ else{ // get request
 
 <div id="content">
 
-  <a class="back-link" href="<?php echo url_for('/staff/pages/index.php'); ?>">&laquo; Back to List</a>
+  <a class="back-link" href="<?php echo url_for('/staff/subjects/show.php?id=' . h(u($page["subject_id"]))); ?>">&laquo; Back to Subject Page</a>
 
   <div class="page delete">
     <h1>Delete Page</h1>
