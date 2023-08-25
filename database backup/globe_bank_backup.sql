@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 19. Aug 2023 um 17:27
+-- Erstellungszeit: 25. Aug 2023 um 18:29
 -- Server-Version: 10.4.27-MariaDB
 -- PHP-Version: 8.2.0
 
@@ -41,7 +41,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `first_name`, `last_name`, `email`, `username`, `hashed_password`) VALUES
-(1, 'Daniel', 'Public', 'public@web.de', 'Dima', '$2y$10$tm05YaeOGSIEGlO8dj1bPu29q.GghIslkPSxUaL6Zya8yR3x/7dpK');
+(1, 'Daniel', 'Public', 'public@web.de', 'Dima', '$2y$10$iLlVnmvOgmEjs0x0DbpEZORy7pCYAcPQpVm34LlXiWsibcp3eEWHO');
 
 -- --------------------------------------------------------
 
