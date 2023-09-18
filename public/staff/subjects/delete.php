@@ -12,6 +12,7 @@ if(is_post_request()) {
   $result = delete_subject($id);
   if($result){
     $_SESSION["status_message"] = "The subject {$subject["menu_name"]} was deleted";
+    shift_subject_position($subject["position"],0); // automatically reorder positions
     redirect_to( url_for( "/staff/subjects/index.php"));
   }
  

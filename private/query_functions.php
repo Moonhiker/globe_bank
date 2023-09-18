@@ -122,6 +122,45 @@ function delete_subject($id){
     }
 }
 
+function shift_subject_position(int $start_pos, int $end_pos, int $current_id = 0): mysqli_result|bool{
+  global $db;
+  
+  if($start_pos == 0){ // new item, +1 to item greater than $end_pos
+    $sql = "UPDATE subjects SET position= position + 1 WHERE position >= ? AND id != ?";
+    $result = mysqli_execute_query($db, $sql,[$end_pos,$current_id]);
+    return $result;
+  }
+
+  else if($end_pos == 0){ // delete item, -1 to item greater than $start_pos
+    $sql = "UPDATE subjects SET position= position - 1 WHERE position >= ?";
+    $result = mysqli_execute_query($db, $sql,[$start_pos]);
+    return $result;
+  }
+
+  else if($start_pos < $end_pos){ // move item back, -1 from items beetween
+    $sql = "UPDATE subjects SET position= position - 1 WHERE position >= ? AND position <= ? AND id != ?";
+    $result = mysqli_execute_query($db, $sql,[$start_pos,$end_pos,$current_id]);
+    return $result;
+  }
+
+  else if($start_pos > $end_pos){ // move item earlier, +1 from items beetween
+    $sql = "UPDATE subjects SET position= position + 1 WHERE position <= ? AND position >= ? AND id != ?";
+    $result = mysqli_execute_query($db, $sql,[$start_pos,$end_pos,$current_id]);
+    return $result;
+  }
+}
+
+function count_subjects(): int{
+  global $db;
+
+  $sql = "SELECT COUNT(id) FROM subjects"; // do not return date -> return quantity
+  $result = mysqli_execute_query($db, $sql);
+  confirm_result_set($result);
+  $row = mysqli_fetch_row($result); // return one array element with the quantity
+  mysqli_free_result($result);
+  return $row[0];
+}
+
 ////////////////// PAGES TABLE QUERIES ///////////////
 
 function find_all_pages(){
@@ -275,7 +314,18 @@ function validate_page($page) {
     $result = mysqli_execute_query($db, $sql, [$subject_id]);
     confirm_result_set($result);
     return $result;
-}
+  }
+
+  function count_pages_by_subject_id(int $subject_id, array $options=[]): int{
+    global $db;
+
+    $sql = "SELECT COUNT(id) FROM pages WHERE subject_id=? "; // do not return date -> return quantity
+    $result = mysqli_execute_query($db, $sql, [$subject_id]);
+    confirm_result_set($result);
+    $row = mysqli_fetch_row($result); // return one array element with the quantity
+    mysqli_free_result($result);
+    return $row[0];
+  }
 
 ////////////////// ADMINS TABLE QUERIES ///////////////
 

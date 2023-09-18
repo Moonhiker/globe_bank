@@ -14,6 +14,7 @@ if(is_post_request()){
   {
       $_SESSION["status_message"] = "The subject {$subject["menu_name"]} was created successfully";
       $new_id = mysqli_insert_id($db);
+      shift_subject_position(0,$subject["position"],$new_id); // automatically reorder positions
       redirect_to(url_for("/staff/subjects/show.php?id=" . $new_id));
   }
   else{
@@ -25,15 +26,9 @@ if(is_post_request()){
 
 $menu_name = '';
 $visible = '';
-
-
-$subject_set = find_all_subjects();
-$subject_count = mysqli_num_rows($subject_set) + 1; // we create a new position
-mysqli_free_result($subject_set);
-
 $subject = [];
+$subject_count = count_subjects() +1;
 $subject["position"]= $subject_count; 
-
 
 ?>
 

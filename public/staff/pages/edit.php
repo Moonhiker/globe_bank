@@ -33,9 +33,7 @@ if(is_post_request()) {
 else{
   $page = find_pages_by_id($id);
 }
-$rows = find_all_pages();
-$page_count = mysqli_num_rows($rows);
-mysqli_free_result($rows);
+$page_count = count_pages_by_subject_id($page["subject_id"]);
 ?>
 
 <?php $page_title = 'Edit Page'; ?>

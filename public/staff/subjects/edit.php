@@ -18,10 +18,13 @@ if(is_post_request()) {
   $subject['position'] = $_POST['position'] ?? '';
   $subject['visible'] = $_POST['visible'] ?? '';
 
+  $oldSubject = find_subject_by_id($id);
+  $startPosition = $oldSubject['position'];
 
   $result = update_subject($subject);
   if($result === true){
     $_SESSION["status_message"] = "The subject {$subject["menu_name"]} was updated successfully";
+    shift_subject_position($startPosition,$subject["position"],$id); // automatically reorder positions
     redirect_to(url_for('/staff/subjects/show.php?id=' . $id));
   }
   else{
@@ -33,12 +36,8 @@ else {
 
   $subject = find_subject_by_id($id);
 
-  
 }
-$subject_set = find_all_subjects();
-$subject_count = mysqli_num_rows($subject_set);
-mysqli_free_result($subject_set);
-
+$subject_count = count_subjects();
 ?>
 
 <?php $page_title = 'Edit Subject'; ?>
