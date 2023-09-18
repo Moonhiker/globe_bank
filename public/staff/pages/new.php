@@ -14,9 +14,10 @@ if(is_post_request()) {
 
   $result = insert_page($page);
   if($result === true){
-    $id = mysqli_insert_id($db);
+    $new_id = mysqli_insert_id($db);
     $_SESSION["status_message"] = "The page {$page["menu_name"]} was created successfully";
-    redirect_to( url_for( "/staff/pages/show.php?id=" . h($id)));
+    shift_page_position(0,$page["position"],$page["subject_id"],$new_id); // automatically reorder positions
+    redirect_to( url_for( "/staff/pages/show.php?id=" . h($new_id)));
   }
   else{
     $errors = $result; 

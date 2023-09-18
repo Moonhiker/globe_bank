@@ -18,10 +18,14 @@ if(is_post_request()) {
   $page["visible"] = $_POST['visible'] ?? '';
   $page["content"] = $_POST['content'] ?? '';
 
+  $oldPage = find_pages_by_id($id);
+  $startPosition = $oldPage['position'];
+
   $result = update_page($page);
   if($result === true)
   {
     $_SESSION["status_message"] = "The page {$page["menu_name"]} was updated successfully";
+    shift_page_position($startPosition,$page["position"],$page["subject_id"],$id); // automatically reorder positions
     redirect_to(url_for("/staff/pages/show.php?id=" . h($id)));
   }
   else{

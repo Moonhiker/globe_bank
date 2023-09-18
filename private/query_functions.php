@@ -124,6 +124,8 @@ function delete_subject($id){
 
 function shift_subject_position(int $start_pos, int $end_pos, int $current_id = 0): mysqli_result|bool{
   global $db;
+
+  if($start_pos == $end_pos) return false; // nothing changed
   
   if($start_pos == 0){ // new item, +1 to item greater than $end_pos
     $sql = "UPDATE subjects SET position= position + 1 WHERE position >= ? AND id != ?";
@@ -325,6 +327,36 @@ function validate_page($page) {
     $row = mysqli_fetch_row($result); // return one array element with the quantity
     mysqli_free_result($result);
     return $row[0];
+  }
+
+  function shift_page_position(int $start_pos, int $end_pos, int $subject_id, int $current_id = 0): mysqli_result|bool{
+    global $db;
+
+    if($start_pos == $end_pos) return false; // nothing changed 
+    
+    if($start_pos == 0){ // new item, +1 to item greater than $end_pos
+      $sql = "UPDATE pages SET position= position + 1 WHERE position >= ? AND id != ? AND subject_id = ?";
+      $result = mysqli_execute_query($db, $sql,[$end_pos,$current_id, $subject_id]);
+      return $result;
+    }
+  
+    else if($end_pos == 0){ // delete item, -1 to item greater than $start_pos
+      $sql = "UPDATE pages SET position= position - 1 WHERE position >= ? AND subject_id = ?";
+      $result = mysqli_execute_query($db, $sql,[$start_pos, $subject_id]);
+      return $result;
+    }
+  
+    else if($start_pos < $end_pos){ // move item back, -1 from items beetween
+      $sql = "UPDATE pages SET position= position - 1 WHERE position >= ? AND position <= ? AND id != ? AND subject_id = ?";
+      $result = mysqli_execute_query($db, $sql,[$start_pos,$end_pos,$current_id, $subject_id]);
+      return $result;
+    }
+  
+    else if($start_pos > $end_pos){ // move item earlier, +1 from items beetween
+      $sql = "UPDATE pages SET position= position + 1 WHERE position <= ? AND position >= ? AND id != ? AND subject_id = ?";
+      $result = mysqli_execute_query($db, $sql,[$start_pos,$end_pos,$current_id, $subject_id]);
+      return $result;
+    }
   }
 
 ////////////////// ADMINS TABLE QUERIES ///////////////

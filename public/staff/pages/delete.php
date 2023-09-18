@@ -14,6 +14,7 @@ if(is_post_request()) {
   $result = delete_page($id);
   if($result){
     $_SESSION["status_message"] = "The page {$page["menu_name"]} was deleted";
+    shift_page_position($page["position"],0,$page["subject_id"]); // automatically reorder positions
     redirect_to( url_for( "/staff/subjects/show.php?id=" . h(u($page["subject_id"])))); // back to nested subject
   }
 }
