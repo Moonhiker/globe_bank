@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <title>Globe Bank <?php if(isset($page_title)) { echo '- ' . h($page_title); } 
-    if($_GET["preview"] == "true") {echo "[PREVIEW]";}?></title>
+    if(isset($_GET["preview"]) == "true") {echo "[PREVIEW]";}?></title>
     <meta charset="utf-8">
     <link rel="stylesheet" media="all" href="<?php echo url_for('/stylesheets/public.css'); ?>" />
   </head>
