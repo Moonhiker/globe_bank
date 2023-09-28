@@ -7,6 +7,7 @@
 * GitHub Desktop
 
 ##Architecture of CMS
+
 ![CMS Architecture](/images_for_dokumentation/Overview.PNG "CMS Architecture")
 
 
