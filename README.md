@@ -44,7 +44,7 @@ Overview on public webpage
 #### Nested pages inside a subject
 
 There are 5 nested pages inside the subject “About Globe”. It is also possible to use CRUD (Create, Read, Update, Delete) for all pages
-![Nested pages](/images_for_dokumentation/Subjects/Pages nested in Subject.png "Nested pages")
+![Nested pages](/images_for_dokumentation/Subjects/Pages_nested_in_Subject.png "Nested pages")
 
 #### Updating a page
 
