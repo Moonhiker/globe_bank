@@ -1,1 +1,5 @@
 *.txt
+/vendor
+*.docx
+*.pdf
+*.cache
