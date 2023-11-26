@@ -1,6 +1,8 @@
 <?php
 require_once('../../../private/initialize.php');
 require_login();
+$pageQueries = new Page();
+$subjectQueries = new Subject();
 
 if(is_post_request()) {
 
@@ -12,11 +14,11 @@ if(is_post_request()) {
   $page["visible"] = $_POST['visible'] ?? '';
   $page["content"] = $_POST['content'] ?? '';
 
-  $result = insert_page($page);
+  $result = $pageQueries->insert_page($page);
   if($result === true){
-    $new_id = mysqli_insert_id($db);
+    $new_id = $pageQueries->getIdByLastQuery(); // returns the value generated for an increment column by the last query
     $_SESSION["status_message"] = "The page {$page["menu_name"]} was created successfully";
-    shift_page_position(0,$page["position"],$page["subject_id"],$new_id); // automatically reorder positions
+    $pageQueries->shift_page_position(0,$page["position"],$page["subject_id"],$new_id); // automatically reorder positions
     redirect_to( url_for( "/staff/pages/show.php?id=" . h($new_id)));
   }
   else{
@@ -34,7 +36,7 @@ else{
   $page["content"] = '';
 }
 
-$page_count = count_pages_by_subject_id($page["subject_id"]) + 1; // +1 because of creation of a new page
+$page_count = $pageQueries->count_pages_by_subject_id($page["subject_id"]) + 1; // +1 because of creation of a new page
 
 ?>
 
@@ -54,7 +56,7 @@ $page_count = count_pages_by_subject_id($page["subject_id"]) + 1; // +1 because 
         <dd>
           <select name="subject_id">
           <?php
-            $subject_set = find_all_subjects();
+            $subject_set = $subjectQueries->find_all_subjects();
             while($subject = mysqli_fetch_assoc($subject_set)) {
               echo "<option value=\"" . h($subject['id']) . "\"";
               if($page["subject_id"] == $subject['id']) {

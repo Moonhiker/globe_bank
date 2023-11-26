@@ -1,5 +1,6 @@
 <?php require_once('../../../private/initialize.php');
 require_login();
+$adminQueries = new Admin();
 
 $page_title = 'Admins'; 
 include(SHARED_PATH . '/staff_header.php'); ?>
@@ -25,7 +26,7 @@ include(SHARED_PATH . '/staff_header.php'); ?>
   	  </tr>
 
       <?php 
-      $all_admins = find_all_admins();
+      $all_admins = $adminQueries->find_all_admins();
       while($admin = mysqli_fetch_assoc($all_admins)) { 
       ?>
         <tr>

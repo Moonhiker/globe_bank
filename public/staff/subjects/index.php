@@ -1,5 +1,7 @@
 <?php require_once('../../../private/initialize.php');
 require_login();
+$subjectQueries = new Subject();
+$pageQueries = new Page();
 
 $page_title = 'Subjects';
 include(SHARED_PATH . '/staff_header.php'); ?>
@@ -25,7 +27,7 @@ include(SHARED_PATH . '/staff_header.php'); ?>
   	  </tr>
 
       <?php 
-       $subject_set = find_all_subjects(); 
+       $subject_set = $subjectQueries->find_all_subjects(); 
        while($subject = mysqli_fetch_assoc($subject_set)) { 
         ?>
         <tr>
@@ -33,7 +35,7 @@ include(SHARED_PATH . '/staff_header.php'); ?>
           <td><?php echo $subject['position']; ?></td>
           <td><?php echo $subject['visible'] == 1 ? 'true' : 'false'; ?></td>
     	    <td><?php echo $subject['menu_name']; ?></td>
-          <td><?php echo count_pages_by_subject_id($subject['id']); ?></td>
+          <td><?php echo $pageQueries->count_pages_by_subject_id($subject['id']); ?></td>
           <td><a href="<?php echo url_for("/staff/subjects/show.php?id=") . h(u($subject['id'])) ; ?>">View</a></td>
           <td><a href="<?php echo url_for("/staff/subjects/edit.php?id=") . h(u($subject['id'])) ; ?>">Edit</a></td>
           <td><a href="<?php echo url_for("/staff/subjects/delete.php?id=") . h(u($subject['id'])) ; ?>">Delete</a></td>

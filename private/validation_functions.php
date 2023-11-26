@@ -68,21 +68,6 @@
   	return in_array($value, $set);
   }
 
-  // has_exclusion_of( 5, [1,3,5,7,9] )
-  // * validate exclusion from a set
-  function has_exclusion_of($value, $set) {
-    return !in_array($value, $set);
-  }
-
-  // has_string('nobody@nowhere.com', '.com')
-  // * validate inclusion of character(s)
-  // * strpos returns string start position or false
-  // * uses !== to prevent position 0 from being considered false
-  // * strpos is faster than preg_match()
-  function has_string($value, $required_string) {
-    return strpos($value, $required_string) !== false;
-  }
-
   // has_valid_email_format('nobody@nowhere.com')
   // * validate correct format for email addresses
   // * format: [chars]@[chars].[2+ letters]

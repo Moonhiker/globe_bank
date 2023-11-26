@@ -1,6 +1,7 @@
 <?php 
 require_once("../../../private/initialize.php");
 require_login();
+$subjectQueries = new Subject();
 
 if(is_post_request()){
   // Handle form values sent by new.php
@@ -9,12 +10,12 @@ if(is_post_request()){
   $subject["position"]  = $_POST['position'] ?? '';
   $subject["visible"]  = $_POST['visible'] ?? '';
   
-  $result = insert_subject($subject);
+  $result = $subjectQueries->insert_subject($subject);
   if($result === true)
   {
       $_SESSION["status_message"] = "The subject {$subject["menu_name"]} was created successfully";
-      $new_id = mysqli_insert_id($db);
-      shift_subject_position(0,$subject["position"],$new_id); // automatically reorder positions
+      $new_id = $subjectQueries->getIdByLastQuery(); // returns the value generated for an increment column by the last query
+      $subjectQueries->shift_subject_position(0,$subject["position"],$new_id); // automatically reorder positions
       redirect_to(url_for("/staff/subjects/show.php?id=" . $new_id));
   }
   else{
@@ -27,7 +28,7 @@ if(is_post_request()){
 $menu_name = '';
 $visible = '';
 $subject = [];
-$subject_count = count_subjects() +1;
+$subject_count = $subjectQueries->count_subjects() +1;
 $subject["position"]= $subject_count; 
 
 ?>

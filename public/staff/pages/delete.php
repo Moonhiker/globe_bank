@@ -1,20 +1,20 @@
 <?php
-
 require_once('../../../private/initialize.php');
 require_login();
+$pageQueries = new Page();
 
 if(!isset($_GET['id'])) {
   redirect_to(url_for('/staff/pages/index.php'));
 }
 $id = $_GET['id'];
 
-$page = find_pages_by_id($id);
+$page = $pageQueries->find_pages_by_id($id);
 
 if(is_post_request()) {
-  $result = delete_page($id);
+  $result = $pageQueries->delete_page($id);
   if($result){
     $_SESSION["status_message"] = "The page {$page["menu_name"]} was deleted";
-    shift_page_position($page["position"],0,$page["subject_id"]); // automatically reorder positions
+    $pageQueries->shift_page_position($page["position"],0,$page["subject_id"]); // automatically reorder positions
     redirect_to( url_for( "/staff/subjects/show.php?id=" . h(u($page["subject_id"])))); // back to nested subject
   }
 }

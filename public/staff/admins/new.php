@@ -1,6 +1,7 @@
 <?php
 require_once('../../../private/initialize.php');
 require_login();
+$adminQueries = new Admin();
 
 if(is_post_request()) {
 
@@ -13,9 +14,9 @@ if(is_post_request()) {
   $admin["hashed_password"] = $_POST['hashed_password'] ?? '';
   $admin["confirm_password"] = $_POST['confirm_password'] ?? '';
   
-  $result = insert_admin($admin);
+  $result = $adminQueries->insert_admin($admin);
   if($result === true){
-    $id = mysqli_insert_id($db); // returns the value generated for an increment column by the last query
+    $id = $adminQueries->getIdByLastQuery(); // returns the value generated for an increment column by the last query
     $_SESSION["status_message"] = "The admin {$admin["username"]} was added successfully";
     redirect_to( url_for( "/staff/admins/show.php?id=" . h($id)));
   }

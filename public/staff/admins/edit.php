@@ -1,6 +1,7 @@
 <?php
 require_once('../../../private/initialize.php');
 require_login();
+$adminQueries = new Admin();
 
 if(!isset($_GET['id'])) {
   redirect_to(url_for('/staff/admins/index.php'));
@@ -19,7 +20,7 @@ if(is_post_request()) {
   $admin["hashed_password"] = $_POST['hashed_password'] ?? '';
   $admin["confirm_password"] = $_POST['hashed_password'] ?? '';
 
-  $result = update_admin($admin);
+  $result = $adminQueries->update_admin($admin);
   if($result === true)
   {
     $_SESSION["status_message"] = "The admin {$admin["username"]} was updated successfully";
@@ -31,7 +32,7 @@ if(is_post_request()) {
 
 }
 else{
-  $admin = find_admin_by_id($id);
+  $admin = $adminQueries->find_admin_by_id($id);
 }
 
 ?>

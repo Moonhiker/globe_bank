@@ -1,6 +1,8 @@
 <?php
 require_once('../../../private/initialize.php');
 require_login();
+$pageQueries = new Page();
+$subjectQueries = new Subject();
 
 if(!isset($_GET['id'])) {
   redirect_to(url_for('/staff/pages/index.php'));
@@ -18,14 +20,14 @@ if(is_post_request()) {
   $page["visible"] = $_POST['visible'] ?? '';
   $page["content"] = $_POST['content'] ?? '';
 
-  $oldPage = find_pages_by_id($id);
+  $oldPage = $pageQueries->find_pages_by_id($id);
   $startPosition = $oldPage['position'];
 
-  $result = update_page($page);
+  $result = $pageQueries->update_page($page);
   if($result === true)
   {
     $_SESSION["status_message"] = "The page {$page["menu_name"]} was updated successfully";
-    shift_page_position($startPosition,$page["position"],$page["subject_id"],$id); // automatically reorder positions
+    $pageQueries->shift_page_position($startPosition,$page["position"],$page["subject_id"],$id); // automatically reorder positions
     redirect_to(url_for("/staff/pages/show.php?id=" . h($id)));
   }
   else{
@@ -35,9 +37,9 @@ if(is_post_request()) {
 
 }
 else{
-  $page = find_pages_by_id($id);
+  $page = $pageQueries->find_pages_by_id($id);
 }
-$page_count = count_pages_by_subject_id($page["subject_id"]);
+$page_count = $pageQueries->count_pages_by_subject_id($page["subject_id"]);
 ?>
 
 <?php $page_title = 'Edit Page'; ?>
@@ -56,7 +58,7 @@ $page_count = count_pages_by_subject_id($page["subject_id"]);
         <dd>
           <select name="subject_id">
           <?php
-            $subject_set = find_all_subjects();
+            $subject_set = $subjectQueries->find_all_subjects();
             while($subject = mysqli_fetch_assoc($subject_set)) {
               echo "<option value=\"" . h($subject['id']) . "\"";
               if($page["subject_id"] == $subject['id']) {

@@ -1,6 +1,7 @@
 <?php
 require_once('../../../private/initialize.php');
 require_login();
+$adminQueries = new Admin();
 
 if(!isset($_GET['id'])) {
   redirect_to(url_for('/staff/admins/index.php'));
@@ -8,15 +9,15 @@ if(!isset($_GET['id'])) {
 $id = $_GET['id'];
 
 if(is_post_request()) {
-  $admin = find_admin_by_id($id); // get information for status message
-  $result = delete_admin($id);
+  $admin = $adminQueries->find_admin_by_id($id); // get information for status message
+  $result = $adminQueries->delete_admin($id);
   if($result){
     $_SESSION["status_message"] = "Admin {$admin["username"]} was deleted";
     redirect_to( url_for( "/staff/admins/index.php"));
   }
 }
 else{ // get request
-  $admin = find_admin_by_id($id);
+  $admin = $adminQueries->find_admin_by_id($id);
 }
 ?>
 

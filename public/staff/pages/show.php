@@ -1,10 +1,12 @@
 <?php require_once('../../../private/initialize.php'); 
 require_login();
+$pageQueries = new Page();
+$subjectQueries = new Subject();
 
 $id = $_GET['id'] ?? '1'; 
 
-$page = find_pages_by_id($id);
-$subject = find_subject_by_id($page['subject_id']);
+$page = $pageQueries->find_pages_by_id($id);
+$subject = $subjectQueries->find_subject_by_id($page['subject_id']);
 ?>
 
 <?php $page_title = 'Show Page'; ?>

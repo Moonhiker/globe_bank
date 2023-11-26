@@ -1,5 +1,7 @@
 <?php require_once('../../../private/initialize.php');
 require_login();
+$subjectQueries = new Subject();
+$pageQueries = new Page();
 
 $id = $_GET['id'] ?? '1'; 
 
@@ -7,8 +9,8 @@ $subject["menu_name"] = '';
 $subject["position"] = '';
 $subject["visible"] = '';
 
-$subject = find_subject_by_id($id);
-$pagesInSubject = find_pages_by_subject_id($id); 
+$subject = $subjectQueries->find_subject_by_id($id);
+$pagesInSubject = $pageQueries->find_pages_by_subject_id($id); 
 ?>
 
 <?php $page_title = 'Show Subjects'; ?>

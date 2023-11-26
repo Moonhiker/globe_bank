@@ -18,11 +18,14 @@ define("WWW_ROOT", $doc_root);  //  doc_root = globe_bank/public
 // echo PUBLIC_PATH . "<br>";
 
 require_once('functions.php');
+require_once('db_credentials.php');
 require_once("database.php");
-require_once("query_functions.php");
+require_once("query_Functions/subject.php");
+require_once("query_Functions/page.php");
+require_once("query_Functions/admin.php");
 require_once("validation_functions.php");
 require_once("auth_functions.php");
 
-$db = db_connect();
+//$db = db_connect();
 $errors= []; // for error handling
 ?>
