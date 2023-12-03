@@ -9,7 +9,6 @@ class Database{
   if($this->connection === false ){
     $test = $optional["Test"] ?? false;
     if ($test){
-      echo "connection is not set -> do connection to Test DB" . PHP_EOL;
       $this->connection = mysqli_connect(TEST_DB_SERVER, TEST_DB_USER, TEST_DB_PASS, TEST_DB_NAME, TEST_DB_PORT);
     }
     else{
