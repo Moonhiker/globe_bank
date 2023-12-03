@@ -102,6 +102,76 @@
         $this->assertEquals(0, $subjectQueries->count_subjects());
     }
 
+    public function testInsertOnePageToSubject(): void
+    {
+        $subjectQueries = new Subject(["Test" => true]);  
+        
+        // Insert subject
+        $subject1 = ["menu_name" => "Global Topic", "position" => 1, "visible" => 1];
+        $subjectQueries->insert_subject($subject1);
+        $subject_id = $subjectQueries->getIdByLastQuery();
+
+        $pageQueries = new Page(["Test" => true]);  
+         
+        // Insert page
+        $page = ["menu_name" => "Online Banking", "position" => 1, "visible" => true, "subject_id" => $subject_id, "content" => "First steps"];
+        $pageQueries->insert_page($page);
+        $page_id = $pageQueries->getIdByLastQuery();
+        $this->assertEquals(1, $pageQueries->count_pages_by_subject_id($subject_id));
+
+        // Delete page
+        $isPageDeleted = $pageQueries->delete_page($page_id);
+        $this->assertEquals(true, $isPageDeleted);
+        $this->assertEquals(0, $pageQueries->count_pages_by_subject_id($subject_id));
+
+        // Delete subject
+        $isSubjectDeleted = $subjectQueries->delete_subject($subject_id);
+        $this->assertEquals(true, $isSubjectDeleted);
+        $this->assertEquals(0, $subjectQueries->count_subjects());
+
+    }
+
+    public function testInsertThreePageToSubject(): void
+    {
+        $subjectQueries = new Subject(["Test" => true]);  
+        
+        // Insert subjects
+        $subject1 = ["menu_name" => "Global Topic", "position" => 1, "visible" => 1];
+        $subjectQueries->insert_subject($subject1);
+        $subject_id = $subjectQueries->getIdByLastQuery();
+
+        $pageQueries = new Page(["Test" => true]);  
+         
+        // Insert page #1
+        $page1 = ["menu_name" => "Online Banking", "position" => 1, "visible" => true, "subject_id" => $subject_id, "content" => "First step"];
+        $pageQueries->insert_page($page1);
+        $page_id1 = $pageQueries->getIdByLastQuery();
+        $this->assertEquals(1, $pageQueries->count_pages_by_subject_id($subject_id));
+
+        // Insert page #2
+        $page2 = ["menu_name" => "Balance", "position" => 2, "visible" => true, "subject_id" => $subject_id, "content" => "Second step"];
+        $pageQueries->insert_page($page2);
+        $page_id2 = $pageQueries->getIdByLastQuery();
+        $this->assertEquals(2, $pageQueries->count_pages_by_subject_id($subject_id));
+
+        // Insert page #3
+        $page3 = ["menu_name" => "Transfer", "position" => 3, "visible" => true, "subject_id" => $subject_id, "content" => "Third step"];
+        $pageQueries->insert_page($page3);
+        $page_id3 = $pageQueries->getIdByLastQuery();
+        $this->assertEquals(3, $pageQueries->count_pages_by_subject_id($subject_id));
+
+        // Delete page
+        $pageQueries->delete_page($page_id1);
+        $pageQueries->delete_page($page_id2);
+        $pageQueries->delete_page($page_id3);
+        $this->assertEquals(0, $pageQueries->count_pages_by_subject_id($subject_id));
+
+        // Delete subject
+        $isSubjectDeleted = $subjectQueries->delete_subject($subject_id);
+        $this->assertEquals(true, $isSubjectDeleted);
+        $this->assertEquals(0, $subjectQueries->count_subjects());
+
+    }
 }
 
 ?>

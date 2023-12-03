@@ -74,7 +74,7 @@
   // * preg_match is helpful, uses a regular expression
   //    returns 1 for a match, 0 for no match
   //    http://php.net/manual/en/function.preg-match.php
-  function has_valid_email_format($value) {
+  function has_valid_email_format(string $value) : bool {
     $email_regex = '/\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\Z/i';
     return preg_match($email_regex, $value) === 1;
   }
@@ -84,9 +84,7 @@
   // * For new records, provide only the menu_name.
   // * For existing records, provide current ID as second arugment
   //   has_unique_page_menu_name('History', 4)
-  function has_unique_page_menu_name($menu_name, $current_id="0") {
-    global $db;
-
+  function has_unique_page_menu_name(string $menu_name, string $current_id="0", mysqli $db) : bool {
     $sql = "SELECT * FROM pages ";
     $sql .= "WHERE menu_name='" . $menu_name . "' ";
     $sql .= "AND id != '" . $current_id . "'";
@@ -99,9 +97,7 @@
   }
 
   // check if username already exist in admins table
-  function has_unique_admin_username($username, $current_id="0") {
-    global $db;
-
+  function has_unique_admin_username(string $username, string $current_id="0", mysqli $db) : bool {
     $sql = "SELECT * FROM admins ";
     $sql .= "WHERE username='" . $username . "' ";
     $sql .= "AND id != '" . $current_id . "'";

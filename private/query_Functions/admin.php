@@ -135,7 +135,7 @@ class Admin {
         $errors[] = "Username must be between 2 and 255 characters.";
         }
         $current_id = $admin["id"] ?? "0"; 
-        if(!has_unique_admin_username($admin["username"], $current_id )) {
+        if(!has_unique_admin_username($admin["username"], $current_id, $this->db )) {
         $errors[] = "Admin with this Username already exist. Try another one.";
         }
     

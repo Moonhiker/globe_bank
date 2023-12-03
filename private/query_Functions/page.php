@@ -112,7 +112,7 @@ function find_all_pages() : mysqli_result|bool{
         $errors[] = "Name must be between 2 and 255 characters.";
       }
       $current_id = $page["id"] ?? "0";
-      if(!has_unique_page_menu_name($page["menu_name"], $current_id )){
+      if(!has_unique_page_menu_name($page["menu_name"], $current_id, $this->db )){
           $errors[] = "Menu name must be unique";
       }
   
