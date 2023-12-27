@@ -40,7 +40,7 @@ class Admin {
         return $result;
     }
     
-    function insert_admin(array $admin) : bool{
+    function insert_admin(array $admin) : bool|array{
         $errors = $this->validate_admin($admin);
         if(!empty($errors)) {
         return $errors;
@@ -144,13 +144,13 @@ class Admin {
         $errors[] = "Password cannot be blank.";
         } elseif (!has_length($admin['hashed_password'], array('min' => 8))) {
         $errors[] = "Password must contain 8 or more characters";
-        } elseif (!preg_match('/[A-Z]/', $admin['hashed_password'])) {
+        } if (!preg_match('/[A-Z]/', $admin['hashed_password'])) {
         $errors[] = "Password must contain at least 1 uppercase letter";
-        } elseif (!preg_match('/[a-z]/', $admin['hashed_password'])) {
+        } if (!preg_match('/[a-z]/', $admin['hashed_password'])) {
         $errors[] = "Password must contain at least 1 lowercase letter";
-        } elseif (!preg_match('/[0-9]/', $admin['hashed_password'])) {
+        } if (!preg_match('/[0-9]/', $admin['hashed_password'])) {
         $errors[] = "Password must contain at least 1 number";
-        } elseif (!preg_match('/[^A-Za-z0-9\s]/', $admin['hashed_password'])) {
+        } if (!preg_match('/[^A-Za-z0-9\s]/', $admin['hashed_password'])) {
         $errors[] = "Password must contain at least 1 symbol";
         }
         
@@ -166,7 +166,16 @@ class Admin {
 
     function getIdByLastQuery() : int {
         return mysqli_insert_id($this->db); // returns the value generated for an increment column by the last query
-      }
+    }
+
+    function count_admins(): int{
+        $sql = "SELECT COUNT(id) FROM admins"; // do not return data -> return quantity
+        $result = mysqli_execute_query($this->db, $sql);
+        $this->database->confirm_result_set($result);
+        $row = mysqli_fetch_row($result); // return one array element with the quantity
+        mysqli_free_result($result);
+        return $row[0];
+    }
   
 }
   ?>

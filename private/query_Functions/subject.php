@@ -171,11 +171,13 @@ class Subject {
         $row = mysqli_fetch_row($result); // return one array element with the quantity
         mysqli_free_result($result);
         return $row[0];
-        }
+    }
+    
 
-        function getIdByLastQuery() : int {
+    function getIdByLastQuery(): int{
         return mysqli_insert_id($this->db); // returns the value generated for an increment column by the last query
     }
 
 }
+
 ?>

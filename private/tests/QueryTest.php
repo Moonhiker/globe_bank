@@ -170,8 +170,55 @@
         $isSubjectDeleted = $subjectQueries->delete_subject($subject_id);
         $this->assertEquals(true, $isSubjectDeleted);
         $this->assertEquals(0, $subjectQueries->count_subjects());
+    }
+
+    public function testCreateAdmin(): void
+    {
+        $adminQueries = new Admin(["Test" => true]); 
+
+        // Create admin
+        // Not conform email adress
+        $admin = ["first_name" => "Max", "last_name" => "Power", "email" => "maxapower.com", "username" => "Testuser",
+        "hashed_password" => "TestPassword1!", "confirm_password" => "TestPassword1!"];
+        $error = $adminQueries->insert_admin($admin);
+        //$this->assertNotEquals("E-Mail must have a valid E-Mail format.", $error[0] ?? '', "E-Mail adress is not conform");
+        $this->assertStringContainsStringIgnoringCase("E-Mail must have a valid E-Mail format.", $error[0] ?? '', "E-Mail adress is not conform");
+        $this->assertEquals(0, $adminQueries->count_admins()); // admin wasn't created
+        unset($error);
+
+        // Username is blank
+        $admin = ["first_name" => "Max", "last_name" => "Power", "email" => "max@power.com", "username" => "",
+        "hashed_password" => "TestPassword1!", "confirm_password" => "TestPassword1!"];
+        $error = $adminQueries->insert_admin($admin);
+        $this->assertStringContainsStringIgnoringCase("Username cannot be blank", $error[0] ?? '', "Username is blank");
+        $this->assertEquals(0, $adminQueries->count_admins()); // admin wasn't created
+        unset($error);
+
+        // Problems with password
+        $admin = ["first_name" => "Max", "last_name" => "Power", "email" => "max@power.com", "username" => "Testuser",
+        "hashed_password" => "TPass", "confirm_password" => "TestPassword1!"];
+        $error = $adminQueries->insert_admin($admin);
+        $this->assertStringContainsStringIgnoringCase("Password must contain 8 or more characters", $error[0] ?? '', "Password has to few characters");
+        $this->assertStringContainsStringIgnoringCase("Password must contain at least 1 number", $error[1] ?? '', "No number in password");
+        $this->assertStringContainsStringIgnoringCase("Password must contain at least 1 symbol", $error[2] ?? '', "No symbol in password");
+        $this->assertStringContainsStringIgnoringCase("Password and confirm password must match.", $error[3] ?? '', "Passwords are different");
+        $this->assertEquals(0, $adminQueries->count_admins()); // admin wasn't created
+        unset($error);
+
+        // Insert admin with correct data 
+        $admin = ["first_name" => "Max", "last_name" => "Power", "email" => "max@power.com", "username" => "Testuser",
+        "hashed_password" => "TestPassword1!", "confirm_password" => "TestPassword1!"];
+        $adminQueries->insert_admin($admin);
+        $admin_id = $adminQueries->getIdByLastQuery();
+        $this->assertEquals(1, $adminQueries->count_admins());
+
+        // Delete admin
+        $isSubjectDeleted = $adminQueries->delete_admin($admin_id);
+        $this->assertEquals(true, $isSubjectDeleted);
+        $this->assertEquals(0, $adminQueries->count_admins());
 
     }
+
 }
 
 ?>
